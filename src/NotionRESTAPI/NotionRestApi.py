@@ -123,11 +123,11 @@ def createPartnerPageOnNotion(Name, Position):
                     }
                 ]
             },
-            #"TheRegistrationPosition":{
-            #    "select":{
-            #        "name": Position 
-            #    }
-            #},
+            "TheRegistrationPosition":{
+                "select":{
+                    "name": Position 
+                }
+            },
             #"Status":{
             #    "select":{
             #        "name":"Not contacted"
