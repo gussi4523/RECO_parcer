@@ -128,11 +128,11 @@ def createPartnerPageOnNotion(Name, Position):
                     "name": Position 
                 }
             },
-            #"Status":{
-            #    "select":{
-            #        "name":"Not contacted"
-            #    }
-            #},
+            "Status":{
+                "select":{
+                    "name":"Not contacted"
+                }
+            },
         },
         icon={
             "type": "external",
