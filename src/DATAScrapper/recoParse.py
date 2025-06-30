@@ -206,5 +206,5 @@ def getDataFromPAGE(page,url):
                 updateCompanyPages(pageId=CompanyId,EmployesId=EmposId)
         else:
             if success == True:
-                updateCompanyPages(getPageByName(legal_name,True))
+                updateCompanyPages(getPageByName(legal_name,True),EmposId)
         
