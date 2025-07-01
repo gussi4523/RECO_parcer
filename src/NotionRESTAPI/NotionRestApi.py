@@ -8,6 +8,7 @@ from src.UniqueCodeGEN.uniquecodeGenerator import generateUniquecode
 # It's best practice to store sensitive keys in environment variables
 # For a quick start, you can paste them directly, but REMOVE them for production!
 # Option 1: Direct pasting (less secure, good for quick testing)
+
 load_dotenv()
 NOTION_API_KEY = os.getenv("NOTION_API_KEY") 
 DATABASE_ID  = os.getenv("DATABASE_ID")
@@ -95,7 +96,7 @@ def updatePartnerPages(pageId:list[dict[str,str]],CompanyId:str):
         )
         print("Company added")
 
-def createPartnerPageOnNotion(Name, Position):
+def createPartnerPageOnNotion(Name, Position,Email,Phone):
     code = generateUniquecode(8)
     print(code)
     print(Position)
@@ -133,6 +134,12 @@ def createPartnerPageOnNotion(Name, Position):
                     "name":"Not contacted"
                 }
             },
+            "Email":{
+                "email": Email
+            },
+            "Phone number":{
+                "phone_number": Phone
+            }
         },
         icon={
             "type": "external",

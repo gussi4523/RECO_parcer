@@ -92,7 +92,7 @@ def getDataFromPAGE(page,url):
                 field = getCards(div=div)
                 print(field)
                 
-                new_page_id = createPartnerPageOnNotion(Name=field["Legal Name"],Position=field["The Registrant Position"])
+                new_page_id = createPartnerPageOnNotion(Name=field["Legal Name"],Position=field["The Registrant Position"],Email=None,Phone=None)
                 id.append({"id" : new_page_id})
                 print(f"id in main : {id}")
                 
@@ -195,6 +195,7 @@ def getDataFromPAGE(page,url):
 
         except Exception as e:
             print("No empoyes link exist", e)
+            createPartnerPageOnNotion(Name=legal_name,Position=None,Email=brokerage_email,Phone=brokerage_phone)
             EmposId = None
             
         
