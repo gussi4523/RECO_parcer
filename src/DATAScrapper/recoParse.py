@@ -192,10 +192,12 @@ def getDataFromPAGE(page,url):
                 page.go_back()
                 
                 print(f"ids : {EmposId}") 
-
+            
+            else:
+                raise ValueError("No employees found")  # Manually trigger exception
         except Exception as e:
             print("No empoyes link exist", e)
-            EmposId =createPartnerPageOnNotion(Name=legal_name,Position=None,Email=brokerage_email,Phone=brokerage_phone)
+            EmposId.append({"id" : createPartnerPageOnNotion(Name=legal_name,Position=None,Email=brokerage_email,Phone=brokerage_phone)}) 
             print("👨‍💼 Single Employ added")
             
         
@@ -207,8 +209,9 @@ def getDataFromPAGE(page,url):
                 updatePartnerPages(pageId=EmposId,CompanyId=CompanyId)
                 updateCompanyPages(pageId=CompanyId,EmployesId=EmposId)
         else:
-            if success == True:
-                updateCompanyPages(getPageByName(legal_name,True),EmposId)
+            #if success == True:
+            updateCompanyPages(getPageByName(legal_name,True),EmposId)
+            updatePartnerPages(pageId=EmposId,CompanyId=getPageByName(legal_name,True))
 
         print(f"{amount-1} companies added")
         

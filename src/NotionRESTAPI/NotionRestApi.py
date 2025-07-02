@@ -68,17 +68,22 @@ def createCompanyPageOnNotion(Name, Address,Phone,Email):
     return new_page["id"]
 
 def updateCompanyPages(pageId:str,EmployesId: list[dict[str,str]]):
-    notion.pages.update(
-        page_id= pageId,
-        properties={
-            "BrokerageEmployees":{
-                    "relation":[
-                    {"id":rid["id"]} for rid in EmployesId
-                ]
+    #try:
+        # Optional: Debug the IDs
+        related_ids = [{"id": rid["id"]} for rid in EmployesId]
+        print("Updating with related IDs:", related_ids)
+
+        response = notion.pages.update(
+            page_id=pageId,
+            properties={
+                "BrokerageEmployees": {
+                    "relation": related_ids
+                }
             }
-        }
-    )
-    print("employees Added")
+        )
+        print("✅ Employees Added to Notion page:", response["id"])
+    #except Exception as e:
+    #    print("❌ Error updating Notion page:", e)
 
 def updatePartnerPages(pageId:list[dict[str,str]],CompanyId:str):
     
@@ -124,10 +129,8 @@ def createPartnerPageOnNotion(Name, Position,Email,Phone):
                     }
                 ]
             },
-            "TheRegistrationPosition":{
-                "multi_select": [
-                    {"name": Position}
-                ]
+            "TheRegistrationPosition": {
+                "multi_select": [{"name": Position}] if Position else []
             },
             "Status":{
                 "status":{

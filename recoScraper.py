@@ -10,12 +10,17 @@ cities = getListOfCities("./data/ontarioCities.json")
 
 with sync_playwright() as p:
     print(len(cities))
+    # Create persistent browser context once
+    context = p.chromium.launch_persistent_context(
+        user_data_dir="./data/profile", headless=False
+    )
     while len(cities) > 0 :
-        r=random.randint(0,len(cities))
+        r=random.randint(0,len(cities)-1)
         #driver = CreateBrowser()
         page = CreatePage(p,PROFILE_PATH="./data/profile")
         enterRegistrantSearch(cities[r],page=page)
         getDataFromPAGE(page=page,url="./data/txt")
         cities.pop(r)
         print(len(cities))
+    context.close()
     
