@@ -155,7 +155,7 @@ def getDataFromPAGE(page,url):
     amount = 1
     for i, div in enumerate(collapse_divs):
         
-        print(f"\n=== Collapse {i} ===")
+        print(f"\n=== Collapse {i+1} ===")
         data = extract_fields(div)
         # Assign to variables
         legal_name = data["Legal Name"]
@@ -186,8 +186,8 @@ def getDataFromPAGE(page,url):
             if  success == True:
                 try:
                     EmposId = getEmpoes(page,i)
-                except:
-                    print("Empos do not geted")
+                except Exception as e:
+                    print(f"Empos do not geted , error : {e}")
 
                 page.go_back()
                 
@@ -195,17 +195,20 @@ def getDataFromPAGE(page,url):
 
         except Exception as e:
             print("No empoyes link exist", e)
-            createPartnerPageOnNotion(Name=legal_name,Position=None,Email=brokerage_email,Phone=brokerage_phone)
-            EmposId = None
+            EmposId =createPartnerPageOnNotion(Name=legal_name,Position=None,Email=brokerage_email,Phone=brokerage_phone)
+            print("👨‍💼 Single Employ added")
             
         
         if compareExistedPages(legal_name) == False:
             CompanyId = createCompanyPageOnNotion(Name=legal_name,Address=brokerage_address,Phone=brokerage_phone,Email=brokerage_email)
             amount+=1
+            
             if success == True:    
                 updatePartnerPages(pageId=EmposId,CompanyId=CompanyId)
                 updateCompanyPages(pageId=CompanyId,EmployesId=EmposId)
         else:
             if success == True:
                 updateCompanyPages(getPageByName(legal_name,True),EmposId)
+
+        print(f"{amount-1} companies added")
         

@@ -125,12 +125,12 @@ def createPartnerPageOnNotion(Name, Position,Email,Phone):
                 ]
             },
             "TheRegistrationPosition":{
-                "select":{
-                    "name": Position 
-                }
+                "multi_select": [
+                    {"name": Position}
+                ]
             },
             "Status":{
-                "select":{
+                "status":{
                     "name":"Not contacted"
                 }
             },
