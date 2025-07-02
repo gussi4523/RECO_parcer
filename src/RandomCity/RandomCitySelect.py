@@ -8,3 +8,11 @@ def selectRandomCity(path):
     print(data["cities"])
     cities = data["cities"]
     return cities[random.randint(0,len(cities))]
+
+def getListOfCities(path):
+    with open(path, 'r') as file:
+        data = json.load(file)
+
+    print(data["cities"])
+    cities = data["cities"]
+    return cities

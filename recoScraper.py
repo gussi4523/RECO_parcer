@@ -3,7 +3,7 @@ from src.DATAScrapper.recoParse import enterRegistrantSearch  ,getDataFromPAGE
 from src.BrowserInit import CreateBrowser , CreatePage
 import time
 from playwright.sync_api import sync_playwright
-from src.RandomCity.RandomCitySelect import selectRandomCity,getListOfCities
+from src.RandomCity.RandomCitySelect import selectRandomCity, getListOfCities
 import random
 
 cities = getListOfCities("./data/ontarioCities.json")
