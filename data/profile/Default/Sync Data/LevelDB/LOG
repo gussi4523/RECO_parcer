@@ -1,7 +1,13 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 2025/07/01-20:58:01.049 866a Reusing MANIFEST /home/gussi55/Documents/code/RecoScraperPY/data/profile/Default/Sync Data/LevelDB/MANIFEST-000001
 2025/07/01-20:58:01.049 866a Recovering log #3
 2025/07/01-20:58:01.050 866a Reusing old log /home/gussi55/Documents/code/RecoScraperPY/data/profile/Default/Sync Data/LevelDB/000003.log 
+=======
+2025/07/02-16:39:23.442 a160 Reusing MANIFEST /home/gussi55/Documents/code/RecoScraperPY/data/profile/Default/Sync Data/LevelDB/MANIFEST-000001
+2025/07/02-16:39:23.443 a160 Recovering log #3
+2025/07/02-16:39:23.443 a160 Reusing old log /home/gussi55/Documents/code/RecoScraperPY/data/profile/Default/Sync Data/LevelDB/000003.log 
+>>>>>>> aeb3db1 (Random city fix)
 =======
 2025/07/02-16:39:23.442 a160 Reusing MANIFEST /home/gussi55/Documents/code/RecoScraperPY/data/profile/Default/Sync Data/LevelDB/MANIFEST-000001
 2025/07/02-16:39:23.443 a160 Recovering log #3
