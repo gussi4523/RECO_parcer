@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 2025/07/01-20:58:01.053 868e Reusing MANIFEST /home/gussi55/Documents/code/RecoScraperPY/data/profile/Default/Local Storage/leveldb/MANIFEST-000001
 2025/07/01-20:58:01.056 868e Recovering log #3
 2025/07/01-20:58:01.057 868e Reusing old log /home/gussi55/Documents/code/RecoScraperPY/data/profile/Default/Local Storage/leveldb/000003.log 
+=======
+2025/07/02-16:39:23.447 a185 Reusing MANIFEST /home/gussi55/Documents/code/RecoScraperPY/data/profile/Default/Local Storage/leveldb/MANIFEST-000001
+2025/07/02-16:39:23.452 a185 Recovering log #3
+2025/07/02-16:39:23.452 a185 Reusing old log /home/gussi55/Documents/code/RecoScraperPY/data/profile/Default/Local Storage/leveldb/000003.log 
+>>>>>>> aeb3db1 (Random city fix)

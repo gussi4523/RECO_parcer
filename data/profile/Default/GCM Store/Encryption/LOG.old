@@ -1,3 +1,15 @@
+<<<<<<< HEAD
 2025/07/01-20:57:11.330 8556 Reusing MANIFEST /home/gussi55/Documents/code/RecoScraperPY/data/profile/Default/GCM Store/Encryption/MANIFEST-000001
 2025/07/01-20:57:11.332 8556 Recovering log #3
 2025/07/01-20:57:11.332 8556 Reusing old log /home/gussi55/Documents/code/RecoScraperPY/data/profile/Default/GCM Store/Encryption/000003.log 
+=======
+<<<<<<< HEAD
+2025/07/02-16:31:19.037 8fbe Reusing MANIFEST /home/gussi55/Documents/code/RecoScraperPY/data/profile/Default/GCM Store/Encryption/MANIFEST-000001
+2025/07/02-16:31:19.037 8fbe Recovering log #3
+2025/07/02-16:31:19.037 8fbe Reusing old log /home/gussi55/Documents/code/RecoScraperPY/data/profile/Default/GCM Store/Encryption/000003.log 
+=======
+2025/07/01-20:58:04.934 866c Reusing MANIFEST /home/gussi55/Documents/code/RecoScraperPY/data/profile/Default/GCM Store/Encryption/MANIFEST-000001
+2025/07/01-20:58:04.934 866c Recovering log #3
+2025/07/01-20:58:04.934 866c Reusing old log /home/gussi55/Documents/code/RecoScraperPY/data/profile/Default/GCM Store/Encryption/000003.log 
+>>>>>>> bc27204 (0.5)
+>>>>>>> aeb3db1 (Random city fix)

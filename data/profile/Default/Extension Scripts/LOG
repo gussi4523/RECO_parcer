@@ -1,2 +1,3 @@
-2025/06/08-18:50:57.825 3c1fb Creating DB /home/parhomenko-danyiil/Documents/code/RecoScraperPY/data/profile/Default/Extension Scripts since it was missing.
-2025/06/08-18:50:57.833 3c1fb Reusing MANIFEST /home/parhomenko-danyiil/Documents/code/RecoScraperPY/data/profile/Default/Extension Scripts/MANIFEST-000001
+2025/07/02-16:39:23.449 a160 Reusing MANIFEST /home/gussi55/Documents/code/RecoScraperPY/data/profile/Default/Extension Scripts/MANIFEST-000001
+2025/07/02-16:39:23.449 a160 Recovering log #3
+2025/07/02-16:39:23.450 a160 Reusing old log /home/gussi55/Documents/code/RecoScraperPY/data/profile/Default/Extension Scripts/000003.log 
