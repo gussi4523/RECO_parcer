@@ -24,7 +24,9 @@ cities = getListOfCities("./data/ontarioCities.json")
 #        print(len(cities))
 #    context.close()
     
-
-driver = CreateBrowser()
-enterRegistrantSearch(city=selectRandomCity("./data/ontarioCities.json"),driver=driver)
-getDataFromPAGE(driver=driver,url="./data/txt")
+print(len(cities))
+# Create persistent browser context onc
+while len(cities) > 0 :
+    driver = CreateBrowser()
+    enterRegistrantSearch(city=selectRandomCity("./data/ontarioCities.json"),driver=driver)
+    getDataFromPAGE(driver=driver,url="./data/txt")
