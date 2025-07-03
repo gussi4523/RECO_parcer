@@ -22,6 +22,9 @@ print(json.dumps(db,indent=2,ensure_ascii=False))
 
 # --- CREATE FUNCTION ---
 def createCompanyPageOnNotion(Name, Address,Phone,Email):
+    def safe_str(val):
+        return str(val) if val is not None else ""
+    
     new_page = notion.pages.create(
         parent={"database_id": DATABASE_ID},
         properties={
@@ -40,16 +43,16 @@ def createCompanyPageOnNotion(Name, Address,Phone,Email):
                     {
                         "type": "text",
                         "text": {
-                            "content": Address if Address else None  # змінна або рядок
+                            "content": safe_str(Address) # змінна або рядок
                         }
                     }
                 ]
             },
             "BrokeragePhone":{
-                "phone_number": Phone if Phone else None
+                "phone_number": safe_str(Phone) if Phone else None
             },
             "BrokerageEmail":{
-                "email": Email if Email else None
+                "email": safe_str(Email) if Email else None
             },
             "Status":{
                 "status":{
@@ -138,10 +141,10 @@ def createPartnerPageOnNotion(Name, Position,Email,Phone):
                 }
             },
             "Email":{
-                "email": Email
+                "email": Email if Email else None
             },
             "Phone number":{
-                "phone_number": Phone
+                "phone_number": Phone if Phone else None
             }
         },
         icon={
