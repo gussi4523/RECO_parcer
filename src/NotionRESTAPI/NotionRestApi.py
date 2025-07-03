@@ -3,7 +3,8 @@ import json
 from dotenv import load_dotenv
 import os
 from src.UniqueCodeGEN.uniquecodeGenerator import generateUniquecode
-
+import time
+from notion_client.errors import APIResponseError
 # --- Configuration ---
 # It's best practice to store sensitive keys in environment variables
 # For a quick start, you can paste them directly, but REMOVE them for production!
@@ -70,23 +71,26 @@ def createCompanyPageOnNotion(Name, Address,Phone,Email):
     print(new_page["id"])
     return new_page["id"]
 
-def updateCompanyPages(pageId:str,EmployesId: list[dict[str,str]]):
-    #try:
-        # Optional: Debug the IDs
-        related_ids = [{"id": rid["id"]} for rid in EmployesId]
-        print("Updating with related IDs:", related_ids)
+def updateCompanyPages(pageId: str, EmployesId: list[dict[str, str]], retries=3):
+    related_ids = [{"id": rid["id"]} for rid in EmployesId]
 
-        response = notion.pages.update(
-            page_id=pageId,
-            properties={
-                "BrokerageEmployees": {
-                    "relation": related_ids
+    for attempt in range(retries):
+        try:
+            print(f"🔄 Updating Notion page {pageId}, attempt {attempt + 1}")
+            response = notion.pages.update(
+                page_id=pageId,
+                properties={
+                    "BrokerageEmployees": {
+                        "relation": related_ids
+                    }
                 }
-            }
-        )
-        print("✅ Employees Added to Notion page:", response["id"])
-    #except Exception as e:
-    #    print("❌ Error updating Notion page:", e)
+            )
+            print("✅ Employees added:", response["id"])
+            return response
+        except Exception as e:
+            print(f"⚠️ Error updating Notion page {pageId}: {e}")
+            time.sleep(1.5)
+    print(f"❌ Skipped updating page {pageId} after {retries} retries.")
 
 def updatePartnerPages(pageId:list[dict[str,str]],CompanyId:str):
     

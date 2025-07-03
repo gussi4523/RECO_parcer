@@ -253,12 +253,18 @@ def getDataFromPAGE(driver, url):
             amount+=1
             
             if success == True:    
-                updatePartnerPages(pageId=EmposId,CompanyId=CompanyId)
-                updateCompanyPages(pageId=CompanyId,EmployesId=EmposId)
+                try:
+                    updatePartnerPages(pageId=EmposId,CompanyId=CompanyId)
+                    updateCompanyPages(pageId=CompanyId,EmployesId=EmposId)
+                except Exception as e:
+                    print(f"⚠️ Failed to update company {CompanyId}: {e}")
         else:
             #if success == True:
-            updateCompanyPages(getPageByName(legal_name,True),EmposId)
-            updatePartnerPages(pageId=EmposId,CompanyId=getPageByName(legal_name,True))
+            try:
+                updateCompanyPages(getPageByName(legal_name,True),EmposId)
+                updatePartnerPages(pageId=EmposId,CompanyId=getPageByName(legal_name,True))
+            except Exception as e:
+                print(f"⚠️ Failed to update company {CompanyId}: {e} PASS")
 
         print(f"{amount-1} companies added")
 
