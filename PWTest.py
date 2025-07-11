@@ -229,6 +229,27 @@ def getDataFromPAGE(driver, url):
 
         print(f"{amount-1} companies added")
 
-driver = CreateBrowser()
-enterRegistrantSearch(city=selectRandomCity("./data/ontarioCities.json"),driver=driver)
-getDataFromPAGE(driver=driver,url="./data/txt")
+import requests
+from bs4 import BeautifulSoup
+
+session = requests.Session()
+url = "https://www.reco.on.ca/RegistrantSearch/Salesperson"
+
+headers = {
+    "User-Agent": "Mozilla/5.0"
+}
+
+data = {
+    "category": "Salesperson",     # or Broker / Brokerage/Branch / ALL
+    "CategoryCity": "Toronto",     # or any city
+    "action": "searchCategory"
+}
+
+response = session.post(url, headers=headers, data=data)
+
+soup = BeautifulSoup(response.text, "html.parser")
+
+# ✅ Show first match
+results = soup.select(".search-result")  # each entry has this class
+print("Found:", len(results))
+print(results[0].text if results else "No results")
