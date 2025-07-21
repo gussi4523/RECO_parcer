@@ -17,10 +17,11 @@ def CreateBrowser():
         "9222"
     ]
 
-    user_data_dir = r"/home/parhomenko-danyiil/.config/SeleniumProfile"
+    #user_data_dir = r"/home/parhomenko-danyiil/.config/SeleniumProfile"
 
     options = Options()
-    #options.add_argument(f"--user-data-dir={"./data/profile"}")
+    #options.add_argument("--headless")
+    options.add_argument("--user-data-dir=./data/profile")
     options.add_argument("--start-maximized")
     options.add_argument("--disable-blink-features=AutomationControlled")
     options.add_argument("--no-sandbox")
