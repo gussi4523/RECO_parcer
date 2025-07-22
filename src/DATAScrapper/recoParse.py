@@ -244,27 +244,32 @@ def getDataFromPAGE(driver, url):
                 raise ValueError("No employees found")
         except Exception as e:
             print("No employee link exists:", e)
-            if getPageByName(legal_name,False) == None:
-                EmposId.append({"id": createPartnerPageOnNotion(Name=legal_name, Position=None, Email=brokerage_email, Phone=brokerage_phone)})
-            print("👨‍💼 Single employee added")
+            page = getPageByName(legal_name,False)
+            print(page)
+            if page == None:
+                pageSingleEM = createPartnerPageOnNotion(Name=legal_name, Position=None, Email=brokerage_email, Phone=brokerage_phone)
+                print(pageSingleEM)
+                EmposId.append({"id": pageSingleEM})
+                print("👨‍💼 Single employee added")
 
         if compareExistedPages(legal_name) == False:
             CompanyId = createCompanyPageOnNotion(Name=legal_name,Address=brokerage_address,Phone=brokerage_phone,Email=brokerage_email)
             amount+=1
             
-            if success == True:    
-                try:
-                    updatePartnerPages(pageId=EmposId,CompanyId=CompanyId)
-                    updateCompanyPages(pageId=CompanyId,EmployesId=EmposId)
-                except Exception as e:
-                    print(f"⚠️ Failed to update company {CompanyId}: {e}")
+            #if success == True:    
+            try:
+                updatePartnerPages(pageId=EmposId,CompanyId=CompanyId)
+                updateCompanyPages(pageId=CompanyId,EmployesId=EmposId)
+            except Exception as e:
+                print(f"⚠️ Failed to update company {legal_name}: {e}")
+            
         else:
             #if success == True:
             try:
                 updateCompanyPages(getPageByName(legal_name,True),EmposId)
                 updatePartnerPages(pageId=EmposId,CompanyId=getPageByName(legal_name,True))
             except Exception as e:
-                print(f"⚠️ Failed to update company {CompanyId}: {e} PASS")
+                print(f"⚠️ Failed to update company {legal_name}: {e} PASS")
 
         print(f"{amount-1} companies added")
 
