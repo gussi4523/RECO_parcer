@@ -5,6 +5,7 @@ import time
 from playwright.sync_api import sync_playwright
 from src.RandomCity.RandomCitySelect import selectRandomCity, getListOfCities
 import random
+import os 
 
 cities = getListOfCities("./data/ontarioCities.json")
 
@@ -24,8 +25,9 @@ cities = getListOfCities("./data/ontarioCities.json")
 #        print(len(cities))
 #    context.close()
 driver = CreateBrowser()
+scriptURL = os.path.dirname(os.path.abspath(__file__))
 print(len(cities))
 # Create persistent browser context onc
 while len(cities) > 0 :
-    enterRegistrantSearch(city=selectRandomCity("./data/ontarioCities.json"),driver=driver)
+    enterRegistrantSearch(city=selectRandomCity(f"{scriptURL}/data/ontarioCities.json"),driver=driver)
     getDataFromPAGE(driver=driver,url="./data/txt")
