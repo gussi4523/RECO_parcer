@@ -246,13 +246,15 @@ def getDataFromPAGE(driver, url):
             print("No employee link exists:", e)
             page = getPageByName(legal_name,False)
             print(page)
-            if page == None:
+            if page:
                 pageSingleEM = createPartnerPageOnNotion(Name=legal_name, Position=None, Email=brokerage_email, Phone=brokerage_phone)
                 print(pageSingleEM)
                 EmposId.append({"id": pageSingleEM})
+                print(f"EmposID: {EmposId}")
                 print("👨‍💼 Single employee added")
 
         if compareExistedPages(legal_name) == False:
+            print("Create")
             CompanyId = createCompanyPageOnNotion(Name=legal_name,Address=brokerage_address,Phone=brokerage_phone,Email=brokerage_email)
             amount+=1
             
@@ -265,6 +267,7 @@ def getDataFromPAGE(driver, url):
             
         else:
             #if success == True:
+            print("Update")
             try:
                 updateCompanyPages(getPageByName(legal_name,True),EmposId)
                 updatePartnerPages(pageId=EmposId,CompanyId=getPageByName(legal_name,True))

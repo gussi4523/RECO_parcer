@@ -1,0 +1,46 @@
+{
+   "action": {
+      "default_icon": "public/sprites/icon-grey.png",
+      "default_popup": "popup/index.html",
+      "default_title": "Urban Browser Guard"
+   },
+   "background": {
+      "service_worker": "service-worker/index.js"
+   },
+   "content_scripts": [ {
+      "all_frames": true,
+      "js": [ "ad-blocker/content.js" ],
+      "match_about_blank": true,
+      "matches": [ "https://*/*", "http://*/*" ],
+      "run_at": "document_start"
+   }, {
+      "all_frames": false,
+      "js": [ "content/index.js" ],
+      "match_about_blank": true,
+      "matches": [ "\u003Call_urls>" ],
+      "run_at": "document_start"
+   } ],
+   "default_locale": "en",
+   "description": "__MSG_appDesc__",
+   "homepage_url": "https://www.urban-vpn.com/",
+   "host_permissions": [ "https://*.bugsnag.com/*", "https://*.urban-vpn.com/*", "https://www.google-analytics.com/*", "https://ssl.google-analytics.com/*", "https://google-analytics.com/", "https://www.google.com/favicon.ico", "https://www.youtube.com/favicon.ico", "\u003Call_urls>", "https://chrome.google.com/webstore/detail/urban-shield/almalgbpmcfpdaopimbdchdliminoign/reviews/*", "https://www.urban-vpn.com/thank-you-ext-shield/*", "https://www.urban-vpn.com/uninstall-ext-shield/*", "https://chrome.google.com/webstore/detail/urban-free-vpn-proxy-unbl/eppiocemhmnlbhjplcgkofciiegomcon/*", "https://authentication.urban-vpn.com/*", "https://anti-mining-protection-toolbar.urban-vpn.com/api/rest/v2/*", "https://geo.geosurf.io/*", "https://authentication.urban-vpn.com/*", "https://config-toolbar.urban-vpn.com/rest/v3/configs/extensions/urban-shield/*", "https://api-pro.urban-vpn.com/rest/v1/*", "https://api-pro.urban-vpn.com/rest/v1/*", "https://api-pro.urban-vpn.com/rest/v1/*", "https://authentication.urban-vpn.com/rest/v1/*", "https://api-pro.urban-vpn.com/rest/v1/redirect/*" ],
+   "icons": {
+      "128": "public/sprites/icon-128.png",
+      "16": "public/sprites/icon.png",
+      "48": "public/sprites/icon-48.png"
+   },
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnfz4Wvf8LI3lfWFa7vg1fa852WOmt4NgUlvI5l6uYhGz+zM3QSrUxn5ZBeVOgtebb6kR7m9Dd0q+Rh1a2fbVpDbmKVB0Ub4naZKpokr6kwWapkK/wT3FJkDczoem70RhEwlVisjHD4DdsoU/yCaghigESYyOj9E8bkbSfoIXdjSuHp/0D1qjtc9D1+MYV7A//DrTMZ3WnQOhwQ8lLVsTQUTixsP8xW0NZqhiPYx1U6dGDWbhv8h+xHzKAfMRGv4H/RRcz7mwcSGDAVZWrQOkszHS9tlWd6qZmGSlg4By0oINMJjSK8G8YXwoZZaAcmOaqSAnecTQAXewACQLmNLVbQIDAQAB",
+   "manifest_version": 3,
+   "minimum_chrome_version": "109.0",
+   "name": "__MSG_appName__",
+   "permissions": [ "tabs", "webNavigation", "webRequest", "management", "alarms", "storage", "scripting", "browsingData", "declarativeNetRequest" ],
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "7.3.5",
+   "web_accessible_resources": [ {
+      "matches": [ "\u003Call_urls>" ],
+      "resources": [ "/content/safe-check-notification/index.html" ]
+   }, {
+      "matches": [ "*://*/*" ],
+      "resources": [ "executors/*" ]
+   } ]
+}

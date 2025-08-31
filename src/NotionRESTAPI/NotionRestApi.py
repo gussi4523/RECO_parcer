@@ -60,6 +60,11 @@ def createCompanyPageOnNotion(Name, Address,Phone,Email):
                     "name":"Not started"
                 }
             },
+            "Type":{
+                "select":{
+                    "name":"RECO"
+                }
+            },
         },
         icon={
             "type": "external",
