@@ -17,7 +17,7 @@ notion = Client(auth=NOTION_API_KEY)
 
 db = notion.databases.retrieve(database_id=DATABASE_ID)
 print(json.dumps(db,indent=2,ensure_ascii=False))
-
+CREATE_BY_ID = os.getenv("CREATED_BY_ID")
 all_pages = []
 next_cursor = None
 
@@ -30,7 +30,7 @@ while True:
         filter={
             "property": "Created by",
             "created_by": {
-                "contains": "3775d289-6cc2-4775-85f2-94dfc388b384"  # must use "contains"
+                "contains": "CREATE_BY_ID"  # must use "contains"
             }
         }
     )
