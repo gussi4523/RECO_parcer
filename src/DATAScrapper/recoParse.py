@@ -244,14 +244,14 @@ def getDataFromPAGE(driver, url):
                 raise ValueError("No employees found")
         except Exception as e:
             print("No employee link exists:", e)
-            page = getPageByName(legal_name,False)
-            print(page)
-            if page:
-                pageSingleEM = createPartnerPageOnNotion(Name=legal_name, Position=None, Email=brokerage_email, Phone=brokerage_phone)
-                print(pageSingleEM)
-                EmposId.append({"id": pageSingleEM})
-                print(f"EmposID: {EmposId}")
-                print("👨‍💼 Single employee added")
+            #page = getPageByName(legal_name,False)
+            #print(f"page: {page}")
+            
+            pageSingleEM = createPartnerPageOnNotion(Name=legal_name, Position=None, Email=brokerage_email, Phone=brokerage_phone)
+            print(pageSingleEM)
+            EmposId.append({"id": pageSingleEM})
+            print(f"EmposID: {EmposId}")
+            print("👨‍💼 Single employee added")
 
         if compareExistedPages(legal_name) == False:
             print("Create")

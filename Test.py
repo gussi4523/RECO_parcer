@@ -30,7 +30,7 @@ while True:
         filter={
             "property": "Created by",
             "created_by": {
-                "contains": "CREATE_BY_ID"  # must use "contains"
+                "contains": CREATE_BY_ID  # must use "contains"
             }
         }
     )
@@ -43,13 +43,18 @@ while True:
     else:
         break
 
-# Function to delete a page
-def delete_page(page):
-    title_prop = page["properties"]["BrokerageName"]["title"]
-    title_text = title_prop[0]["text"]["content"] if title_prop else "No title"
-    notion.pages.update(page_id=page["id"], archived=True)
-    print(title_text + " deleted")
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
-# Delete pages concurrently for speed
-with ThreadPoolExecutor(max_workers=10) as executor:
-    executor.map(delete_page, all_pages)
+def delete_page(page):
+    notion.pages.update(page_id=page["id"], archived=True)
+    return page["id"]
+
+with ThreadPoolExecutor(max_workers=20) as executor:  # adjust workers
+    futures = [executor.submit(delete_page, p) for p in all_pages]
+
+    for future in as_completed(futures):
+        try:
+            page_id = future.result()
+            print(f"Deleted {page_id}")
+        except Exception as e:
+            print("Error:", e)
