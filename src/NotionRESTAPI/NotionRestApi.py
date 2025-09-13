@@ -65,6 +65,9 @@ def createCompanyPageOnNotion(Name, Address,Phone,Email):
                     "name":"RECO"
                 }
             },
+            "Projects":{
+                "relation":[{"id":"26ddfa61-61aa-80e1-b4dc-ff49246b33c9"}]
+            }
         },
         icon={
             "type": "external",
@@ -87,6 +90,10 @@ def updateCompanyPages(pageId: str, EmployesId: list[dict[str, str]], retries=3)
                 properties={
                     "BrokerageEmployees": {
                         "relation": related_ids
+                    },
+                    
+                    "Projects":{
+                        "relation":[{"id":"26ddfa61-61aa-80e1-b4dc-ff49246b33c9"}]
                     }
                 }
             )
@@ -107,6 +114,11 @@ def updatePartnerPages(pageId:list[dict[str,str]],CompanyId:str):
                 "CompanyName":{
                     "relation":[
                         {"id":CompanyId}
+                    ]
+                },
+                "Projects":{
+                        "relation":[
+                            {"id":"26ddfa61-61aa-80e1-b4dc-ff49246b33c9"}
                     ]
                 }
             }
@@ -154,6 +166,9 @@ def createPartnerPageOnNotion(Name, Position,Email,Phone):
             },
             "Phone number":{
                 "phone_number": Phone if Phone else None
+            },
+            "Projects":{
+                "relation":[{"id":"26ddfa61-61aa-80e1-b4dc-ff49246b33c9"}]
             }
         },
         icon={

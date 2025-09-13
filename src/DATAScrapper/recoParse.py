@@ -67,20 +67,25 @@ def enterRegistrantSearch(city, driver):
 #    print("Page title:", page.title())
 
 def getDataFromPAGE(driver, url):
-    def enterWebsiteEmpos(i):
+    def enterWebsiteEmpos(i)-> tuple:
         try:
             heading = driver.find_element(By.ID, f"heading{i}")
             ActionChains(driver).move_to_element(heading).perform()
             heading.click()
-    
+            NameOFBrokerCompany = heading.find_element(By.CSS_SELECTOR, "h4.mb-0").text
+            print(NameOFBrokerCompany)
             time.sleep(1)  # wait for collapse animation
     
             html = driver.page_source
             soup = BeautifulSoup(html, "html.parser")
             collapse = soup.find("div", {"id": f"collapse{i}"})
+            # find all divs with class 'myClass'
+            elements = driver.find_elements(By.CSS_SELECTOR, "div.card.mt-2")
+            driver.execute_script("arguments[0].style.removeProperty('display');", elements[i])
+            print(f"selenium div : {elements[i]}")
             if not collapse:
                 print(f"❌ Collapse {i} not found.")
-                return False
+                return (False,NameOFBrokerCompany)
     
             # Corrected: find <p> with <strong> containing 'Employee List:'
             p = None
@@ -92,7 +97,7 @@ def getDataFromPAGE(driver, url):
                 
             if not p:
                 print(f"❌ No 'Employee List' found for collapse {i}, skipping...")
-                return False
+                return (False,NameOFBrokerCompany)
     
             time.sleep(1)
     
@@ -106,12 +111,12 @@ def getDataFromPAGE(driver, url):
                 time.sleep(1)
             except Exception as e:
                 print("⚠️ Couldn't click employee link:", e)
-                return False
+                return (False,NameOFBrokerCompany)
     
-            return True
+            return (True,NameOFBrokerCompany)
         except Exception as e:
             print(f"Error in enterWebsiteEmpos: {e}")
-            return False
+            return (False,NameOFBrokerCompany)
 
     def getEmpoes(i):
         def getCards(div):
@@ -167,6 +172,7 @@ def getDataFromPAGE(driver, url):
             "Brokerage Email": None,
             "Brokerage Phone": None,
             "Brokerage Fax": None,
+            "Broker of Record":None,
         }
 
         for p in div.find_all("p"):
@@ -203,6 +209,12 @@ def getDataFromPAGE(driver, url):
     print(len(collapse_divs))
     time.sleep(1)
     amount = 1
+    # Remove only `display` from inline styles
+    driver.execute_script("""
+        document.querySelectorAll('*[style]').forEach(el => {
+            el.style.removeProperty('display');
+        });
+    """)
     for i, div in enumerate(collapse_divs):
         print(f"\n=== Collapse {i+1} ===")
         data = extract_fields(div)
@@ -216,6 +228,7 @@ def getDataFromPAGE(driver, url):
         brokerage_email = data["Brokerage Email"]
         brokerage_phone = data["Brokerage Phone"]
         brokerage_fax = data["Brokerage Fax"]
+        broker_record = data["Broker of Record"]
 
         print(legal_name)
         print(brokerage_email)
@@ -226,10 +239,11 @@ def getDataFromPAGE(driver, url):
         print(registration_expiry)
         print(registration_status)
         print(registration_category)
+        print(broker_record)
 
         EmposId = []
         try:
-            success = enterWebsiteEmpos(i)
+            success, NameOFCompany = enterWebsiteEmpos(i)
             print("Employee list success:", success)
 
             if success:
@@ -239,23 +253,31 @@ def getDataFromPAGE(driver, url):
                     print("Empos not extracted:", e)
 
                 driver.back()
+
+                driver.execute_script("""
+                    document.querySelectorAll('*[style]').forEach(el => {
+                        el.style.removeProperty('display');
+                    });
+                """)
+
                 time.sleep(1)
             else:
                 raise ValueError("No employees found")
+            pageBrokerRecord = createPartnerPageOnNotion(Name=broker_record,Position="Broker of Record",Email=brokerage_email, Phone=brokerage_phone)
         except Exception as e:
             print("No employee link exists:", e)
             #page = getPageByName(legal_name,False)
             #print(f"page: {page}")
             
-            pageSingleEM = createPartnerPageOnNotion(Name=legal_name, Position=None, Email=brokerage_email, Phone=brokerage_phone)
+            pageSingleEM = createPartnerPageOnNotion(Name=broker_record if broker_record else NameOFCompany, Position="Broker of Record", Email=brokerage_email, Phone=brokerage_phone)
             print(pageSingleEM)
             EmposId.append({"id": pageSingleEM})
             print(f"EmposID: {EmposId}")
             print("👨‍💼 Single employee added")
 
-        if compareExistedPages(legal_name) == False:
+        if compareExistedPages(NameOFCompany) == False:
             print("Create")
-            CompanyId = createCompanyPageOnNotion(Name=legal_name,Address=brokerage_address,Phone=brokerage_phone,Email=brokerage_email)
+            CompanyId = createCompanyPageOnNotion(Name=NameOFCompany,Address=brokerage_address,Phone=brokerage_phone,Email=brokerage_email)
             amount+=1
             
             #if success == True:    
@@ -263,16 +285,16 @@ def getDataFromPAGE(driver, url):
                 updatePartnerPages(pageId=EmposId,CompanyId=CompanyId)
                 updateCompanyPages(pageId=CompanyId,EmployesId=EmposId)
             except Exception as e:
-                print(f"⚠️ Failed to update company {legal_name}: {e}")
+                print(f"⚠️ Failed to update company {NameOFCompany}: {e}")
             
         else:
             #if success == True:
             print("Update")
             try:
-                updateCompanyPages(getPageByName(legal_name,True),EmposId)
-                updatePartnerPages(pageId=EmposId,CompanyId=getPageByName(legal_name,True))
+                updateCompanyPages(getPageByName(NameOFCompany,True),EmposId)
+                updatePartnerPages(pageId=EmposId,CompanyId=getPageByName(NameOFCompany,True))
             except Exception as e:
-                print(f"⚠️ Failed to update company {legal_name}: {e} PASS")
+                print(f"⚠️ Failed to update company {NameOFCompany}: {e} PASS")
 
         print(f"{amount-1} companies added")
 

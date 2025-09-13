@@ -1,6 +1,5 @@
-2025/09/06-20:42:51.998 2a3c Reusing MANIFEST /home/gussi55/Documents/code/WORK_MARK/RecoScraperPY/data/profile/Default/Session Storage/MANIFEST-000001
-2025/09/06-20:42:51.998 2a3c Recovering log #21
-2025/09/06-20:42:51.999 2a3c Reusing old log /home/gussi55/Documents/code/WORK_MARK/RecoScraperPY/data/profile/Default/Session Storage/000021.log 
-2025/09/06-20:43:14.303 2a3e Level-0 table #25: started
-2025/09/06-20:43:14.308 2a3e Level-0 table #25: 44941 bytes OK
-2025/09/06-20:43:14.318 2a3e Delete type=0 #21
+2025/09/13-18:59:44.023 6984 Reusing MANIFEST /home/gussi55/Documents/code/WORK_MARK/RecoScraperPY/data/profile/Default/Session Storage/MANIFEST-000001
+2025/09/13-18:59:44.023 6984 Recovering log #108
+2025/09/13-18:59:44.023 6984 Reusing old log /home/gussi55/Documents/code/WORK_MARK/RecoScraperPY/data/profile/Default/Session Storage/000108.log 
+2025/09/13-19:00:20.080 6984 Level-0 table #112: started
+2025/09/13-19:00:20.086 6984 Level-0 table #112: 44949 bytes OK

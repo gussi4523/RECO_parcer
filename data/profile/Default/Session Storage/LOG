@@ -1,6 +1,20 @@
-2025/09/06-20:44:50.550 2c47 Reusing MANIFEST /home/gussi55/Documents/code/WORK_MARK/RecoScraperPY/data/profile/Default/Session Storage/MANIFEST-000001
-2025/09/06-20:44:50.550 2c47 Recovering log #24
-2025/09/06-20:44:50.551 2c47 Reusing old log /home/gussi55/Documents/code/WORK_MARK/RecoScraperPY/data/profile/Default/Session Storage/000024.log 
-2025/09/06-20:45:12.032 2c49 Level-0 table #28: started
-2025/09/06-20:45:12.035 2c49 Level-0 table #28: 44943 bytes OK
-2025/09/06-20:45:12.038 2c49 Delete type=0 #24
+2025/09/13-19:02:46.563 6fb5 Reusing MANIFEST /home/gussi55/Documents/code/WORK_MARK/RecoScraperPY/data/profile/Default/Session Storage/MANIFEST-000001
+2025/09/13-19:02:46.563 6fb5 Recovering log #108
+2025/09/13-19:02:46.564 6fb5 Level-0 table #111: started
+2025/09/13-19:02:46.571 6fb5 Level-0 table #111: 44949 bytes OK
+2025/09/13-19:02:46.572 6fb5 Recovering log #111
+2025/09/13-19:02:46.572 6fb5 Reusing old log /home/gussi55/Documents/code/WORK_MARK/RecoScraperPY/data/profile/Default/Session Storage/000111.log 
+2025/09/13-19:02:46.574 6fb5 Delete type=2 #112
+2025/09/13-19:02:46.574 6fb5 Delete type=0 #108
+2025/09/13-19:02:46.574 6fbc Compacting 4@0 + 1@1 files
+2025/09/13-19:02:46.577 6fbc Generated table #112@0: 106 keys, 47294 bytes
+2025/09/13-19:02:46.577 6fbc Compacted 4@0 + 1@1 files => 47294 bytes
+2025/09/13-19:02:46.579 6fbc compacted to: files[ 0 1 1 0 0 0 0 ]
+2025/09/13-19:02:46.580 6fbc Delete type=2 #101
+2025/09/13-19:02:46.580 6fbc Delete type=2 #106
+2025/09/13-19:02:46.580 6fbc Delete type=2 #111
+2025/09/13-19:02:46.580 6fbc Delete type=2 #103
+2025/09/13-19:02:46.580 6fbc Delete type=2 #109
+2025/09/13-19:03:24.485 6fbc Level-0 table #114: started
+2025/09/13-19:03:24.490 6fbc Level-0 table #114: 44986 bytes OK
+2025/09/13-19:03:24.499 6fbc Delete type=0 #111
