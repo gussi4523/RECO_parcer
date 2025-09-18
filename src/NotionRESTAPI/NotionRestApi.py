@@ -107,7 +107,11 @@ def updateCompanyPages(pageId: str, EmployesId: list[dict[str, str]], retries=3)
 def updatePartnerPages(pageId:list[dict[str,str]],CompanyId:str):
     
     for pID in pageId:
-        print(pageId)
+        print(pID["id"])
+        page = notion.pages.retrieve(page_id=pID["id"])
+
+        # Access properties
+        props = page["properties"]
         notion.pages.update(
             page_id= pID["id"],
             properties={
@@ -213,6 +217,27 @@ def compareExistedPages(name):
             "database_id": DATABASE_ID,
             "filter": {
                 "property": "BrokerageName",  # This must match your title property's name
+                "title": {
+                    "equals": name
+                }
+            }
+        }
+    )
+
+        # Check results
+    if response["results"]:
+        print("❌ Page exists!")
+        return True
+    else:
+        print("✅ Page does NOT exist.")
+        return False
+    
+def compareExistedParthnerPages(name):
+    response = notion.databases.query(
+        **{
+            "database_id": DATABASE_ID_P,
+            "filter": {
+                "property": "LegalName",  # This must match your title property's name
                 "title": {
                     "equals": name
                 }

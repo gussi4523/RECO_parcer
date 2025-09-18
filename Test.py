@@ -1,41 +1,62 @@
-from dotenv import load_dotenv
 import os
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from notion_client import Client
+import time
 
-load_dotenv()
-NOTION_API_KEY = os.getenv("NOTION_API_KEY") 
-DATABASE_ID  = os.getenv("DATABASE_ID")
-DATABASE_ID_P  = os.getenv("DATABASE_ID_P")
+# Notion setup
+NOTION_TOKEN = "REMOVED"  # or paste your "secret_xxx"
+DATABASE_ID = "30cf3019db6e4c2aa529c31a976b6809"
 
-notion = Client(auth=NOTION_API_KEY)
+notion = Client(auth=NOTION_TOKEN)
+ID = notion.users.me()["id"]
 
-# === Add this near your other config ===
-PROJECTS_DB_ID = "48c93139d07f46778fe93be9298c8afd"  # NOT a page id; the DB id of your Projects database
-PROJECT_TITLE_PROP = "Name"                    # title prop in Projects DB (change if yours differs)
-
-results = []
-has_more = True
-cursor = None
-
-while has_more:
+def fetch_pages(batch_size=100):
+    """Fetch up to batch_size pages created by this user"""
     response = notion.databases.query(
         **{
-            "database_id": PROJECTS_DB_ID,
-            "start_cursor": cursor,
-            "page_size": 100  # max allowed
+            "database_id": DATABASE_ID,
+            "filter": {
+                "and":[{
+                    "property": "Created by",
+                "created_by": {"contains": ID}
+                },{
+                    "property": "CompanyName",
+                    "relation":{"is_empty": True}
+                }]
+                
+            },
+            "page_size": batch_size
         }
     )
+    return response["results"]
 
-    results.extend(response["results"])
 
-    has_more = response["has_more"]
-    cursor = response.get("next_cursor")
+def archive_page(page_id: str):
+    """Archive a Notion page safely"""
+    try:
+        notion.pages.update(page_id=page_id, archived=True)
+        return f"✅ Archived {page_id}"
+    except Exception as e:
+        return f"❌ Failed {page_id}: {e}"
 
-print(f"Total pages fetched: {len(results)}")
-for page in results:
-    page_id = page["id"]
-    # The title property is usually called "Name"
-    title_property = page["properties"]["Name"]["title"]
-    name = "".join([t["plain_text"] for t in title_property])
-    print(f"{page_id} - {name}")
 
+def main():
+    while True:
+        pages = fetch_pages(batch_size=100)
+        if not pages:
+            print("No more pages to delete. Exiting.")
+            break
+
+        print(f"Found {len(pages)} pages to archive...")
+
+        with ThreadPoolExecutor(max_workers=20) as executor:
+            futures = [executor.submit(archive_page, page["id"]) for page in pages]
+            for future in as_completed(futures):
+                print(future.result())
+
+        # Optional: short delay to avoid hitting Notion rate limits
+        time.sleep(1)
+
+
+if __name__ == "__main__":
+    main()

@@ -1,6 +1,6 @@
 #from playwright.sync_api import sync_playwright
 from bs4 import BeautifulSoup
-from src.NotionRESTAPI.NotionRestApi import createCompanyPageOnNotion, compareExistedPages, createPartnerPageOnNotion, updatePartnerPages, updateCompanyPages, getPageByName
+from src.NotionRESTAPI.NotionRestApi import createCompanyPageOnNotion, compareExistedPages,compareExistedParthnerPages, createPartnerPageOnNotion, updatePartnerPages, updateCompanyPages, getPageByName
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -155,10 +155,14 @@ def getDataFromPAGE(driver, url):
         for div in collapse_divs:
             field = getCards(div)
             print(field)
-            new_page_id = createPartnerPageOnNotion(Name=field["Legal Name"],
-                                                    Position=field["The Registrant Position"],
-                                                    Email=None, Phone=None)
-            id_list.append({"id": new_page_id})
+            if compareExistedParthnerPages(name=field["Legal Name"]) == False:
+                new_page_id = createPartnerPageOnNotion(Name=field["Legal Name"],
+                                                        Position=field["The Registrant Position"],
+                                                        Email=None, Phone=None)
+                id_list.append({"id": new_page_id})
+            else:
+                id_list.append({"id": getPageByName(field["Legal Name"],False)})
+                print("partner exists, Update")
         return id_list
 
     def extract_fields(div):
@@ -246,6 +250,13 @@ def getDataFromPAGE(driver, url):
             success, NameOFCompany = enterWebsiteEmpos(i)
             print("Employee list success:", success)
 
+            if compareExistedPages(NameOFCompany) == False:
+                print("Create")
+                CompanyId = createCompanyPageOnNotion(Name=NameOFCompany,Address=brokerage_address,Phone=brokerage_phone,Email=brokerage_email)
+                amount+=1
+            else:
+                CompanyId = getPageByName(NameOFCompany,True)
+
             if success:
                 try:
                     EmposId = getEmpoes(i)
@@ -263,7 +274,7 @@ def getDataFromPAGE(driver, url):
                 time.sleep(1)
             else:
                 raise ValueError("No employees found")
-            pageBrokerRecord = createPartnerPageOnNotion(Name=broker_record,Position="Broker of Record",Email=brokerage_email, Phone=brokerage_phone)
+            #pageBrokerRecord = createPartnerPageOnNotion(Name=broker_record,Position="Broker of Record",Email=brokerage_email, Phone=brokerage_phone)
         except Exception as e:
             print("No employee link exists:", e)
             #page = getPageByName(legal_name,False)
@@ -274,28 +285,23 @@ def getDataFromPAGE(driver, url):
             EmposId.append({"id": pageSingleEM})
             print(f"EmposID: {EmposId}")
             print("👨‍💼 Single employee added")
-
-        if compareExistedPages(NameOFCompany) == False:
-            print("Create")
-            CompanyId = createCompanyPageOnNotion(Name=NameOFCompany,Address=brokerage_address,Phone=brokerage_phone,Email=brokerage_email)
-            amount+=1
             
-            #if success == True:    
-            try:
-                updatePartnerPages(pageId=EmposId,CompanyId=CompanyId)
-                updateCompanyPages(pageId=CompanyId,EmployesId=EmposId)
-            except Exception as e:
-                print(f"⚠️ Failed to update company {NameOFCompany}: {e}")
-            
-        else:
-            #if success == True:
-            print("Update")
-            try:
-                updateCompanyPages(getPageByName(NameOFCompany,True),EmposId)
-                updatePartnerPages(pageId=EmposId,CompanyId=getPageByName(NameOFCompany,True))
-            except Exception as e:
-                print(f"⚠️ Failed to update company {NameOFCompany}: {e} PASS")
-
+        #if success == True:    
+        try:
+            updatePartnerPages(pageId=EmposId,CompanyId=CompanyId)
+            updateCompanyPages(pageId=CompanyId,EmployesId=EmposId)
+        except Exception as e:
+            print(f"⚠️ Failed to update company {NameOFCompany}: {e}")
+        
+        
+        #try:
+        #     #if success == True:
+        #    print("Update")
+        #    updateCompanyPages(CompanyId,EmposId)
+        #    updatePartnerPages(pageId=EmposId,CompanyId=CompanyId)
+        #except Exception as e:
+        #    print(f"⚠️ Failed to update company {NameOFCompany}: {e} PASS")
+        
         print(f"{amount-1} companies added")
 
 #def getDataFromPAGE(page,url):
