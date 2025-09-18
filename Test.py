@@ -2,9 +2,14 @@ import os
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from notion_client import Client
 import time
+from dotenv import load_dotenv
+import os
+
+load_dotenv
+
 
 # Notion setup
-NOTION_TOKEN = "REMOVED"  # or paste your "secret_xxx"
+NOTION_TOKEN = os.getenv("NOTION_API_KEY") # or paste your "secret_xxx"
 DATABASE_ID = "30cf3019db6e4c2aa529c31a976b6809"
 
 notion = Client(auth=NOTION_TOKEN)
