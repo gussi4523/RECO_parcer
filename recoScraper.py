@@ -6,9 +6,6 @@ import time
 from src.RandomCity.RandomCitySelect import selectRandomCity, getListOfCities
 import random
 import os 
-
-cities = getListOfCities("./data/ontarioCities.json")
-
 #with sync_playwright() as p:
 #    print(len(cities))
 #    # Create persistent browser context once
@@ -24,10 +21,22 @@ cities = getListOfCities("./data/ontarioCities.json")
 #        cities.pop(r)
 #        print(len(cities))
 #    context.close()
+
+## Create persistent browser context onc
+#while len(cities) > 0 :
+#    enterRegistrantSearch(city=selectRandomCity(f"{scriptURL}/data/ontarioCities.json"),driver=driver)
+#    getDataFromPAGE(driver=driver,url="./data/txt")
+
 driver = CreateBrowser()
 scriptURL = os.path.dirname(os.path.abspath(__file__))
-print(len(cities))
-# Create persistent browser context onc
-while len(cities) > 0 :
-    enterRegistrantSearch(city=selectRandomCity(f"{scriptURL}/data/ontarioCities.json"),driver=driver)
-    getDataFromPAGE(driver=driver,url="./data/txt")
+
+while True:  # infinite loop
+    cities = getListOfCities("./data/ontarioCities.json")  # load cities
+    #print(len(cities))
+    random.shuffle(cities)  # shuffle to process in random order
+    print(len(cities))
+    for city in cities:
+        enterRegistrantSearch(city=city, driver=driver)
+        getDataFromPAGE(driver=driver, url="./data/txt")
+        time.sleep(0.5)  # optional: avoid overwhelming the site
+    
